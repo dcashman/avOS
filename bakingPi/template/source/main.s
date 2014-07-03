@@ -28,12 +28,14 @@ sub_loop:
         bne sub_loop
 
         @ switch setVal and set pin based on it
-        @eor setVal, setVal, #1
+        eor setVal, setVal, #1
         pinNum .req r0
         pinVal .req r1
         mov pinNum, #16
         mov pinVal, setVal
+        push {setVal}
         bl SetGpio
+        pop {setVal}
         .unreq pinNum
         .unreq pinVal
         b delay_start
