@@ -21,11 +21,12 @@ main:
         setVal .req r3
         mov setVal, #0
 delay_start:
-        mov r2, #0x3F0000
-sub_loop:
-        sub r2, r2, #1
-        cmp r2, #0
-        bne sub_loop
+        push { setVal }
+        waitTime .req r0
+        @ldr waitTime, =0x100000
+        ldr waitTime, =100000
+        bl Wait
+        pop { setVal }
 
         @ switch setVal and set pin based on it
         eor setVal, setVal, #1
